@@ -23,3 +23,6 @@ INSERT INTO tbl_user VALUES
 ('t005', 'ゲスト5',   '3456',2),
 ('admin', 'Admin',  '5678',9);
  
+ 
+ 
+ 
