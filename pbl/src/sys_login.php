@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-TYPE" content="text/html; charset=UTF-8">
+<link rel="stylesheet" TYPE="text/css" href="css/style.css">
+</head>
 <h2>ココすこ！！</h2>
 <div style="display:inline-flex">
 <h1>ログイン</h1>&nbsp;&nbsp;
