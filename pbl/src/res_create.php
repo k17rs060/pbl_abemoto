@@ -3,7 +3,8 @@
 require_once ('db_inc.php');
 // 変数の初期化。新規登録か編集かにより異なる。
 $act = 'insert'; // 新規登録の場合
-$STORE_INFO = $STORE_NAME = '';
+$STORE_INFO = '';
+$STORE_NAME = '';
 $ADDRESS = '';
 $op_hour = '';
 $op_min = '';
@@ -20,18 +21,20 @@ $HP_URL = '';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-		<h2><input type="reset" value="戻る" /></h2>
+	<h2>
+		<input type="reset" value="戻る" onclick="location.href = 'pb_home.php'" >
+	</h2>
 	<br>
 
 	<h2>店舗登録</h2>
 	<form action="res_save.php" method="post">
 		<input type="hidden" name="act" value="<?php echo $act; ?>">
 		<table>
-		<tr><td>
-		<?php
-		//店舗ID
-		echo '<hidden name = "$STORE_INFO" value = uniqid(rand()."_")>';
-		?>
+			<tr>
+				<td>店舗ID:</td>
+				<td><input type = "text" name="$STORE_INFO"
+					value = <?php echo  uniqid(rand().'_'); ?>></td>
+			</tr>
 			<tr>
 				<td>店舗名：</td>
 				<td><input type="text" name="STORE_NAME"
