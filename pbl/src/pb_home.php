@@ -6,10 +6,11 @@
 </head>
 <body>
 <h1>ココすこ！！</h1>
+<div align="right">
 <form action = "hello.php" method = "post">
  <input type = "submit" value = "店舗登録">　<input type = "submit" value = "ログアウト"><br>
  </form>
-
+</div>
 <form action = "hello.php" method = "post">
  <input type = "text" name = "username">　<input type = "submit" value = "検索"><br>
  </form>
