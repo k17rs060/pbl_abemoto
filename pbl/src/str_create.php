@@ -6,13 +6,13 @@ $act = 'insert'; // 新規登録の場合
 $STORE_ID = '';
 $STORE_NAME = '';
 $ADDRESS = '';
-$OP_HOUR = '';
-$OP_MIN = '';
-$CL_HOUR = '';
-$CL_MIN = '';
-$MOVE_TIME = '';
-$HOLIDAY = '';
-$HP_URL = 0;
+$OP_HOUR = 0;
+$OP_MIN = 0;
+$CL_HOUR = 0;
+$CL_MIN = 0;
+$MOVE_TIME = 0;
+$HOLIDAY = 0;
+$HP_URL = '';
 
 ?>
 
@@ -22,37 +22,38 @@ $HP_URL = 0;
 <link rel="stylesheet" TYPE="text/css" href="css/style.css">
 </head>
 <body>
-<div class="wrapper">
-<div id="navbar">
+	<div class="wrapper">
+		<div id="navbar">
 
-	<h2>
-		<input type="reset" value="戻る" onclick="location.href = 'kokosuko.php'">
-	</h2>
-	<br>
+			<h2>
+				<input type="reset" value="戻る"
+					onclick="location.href = 'kokosuko.php'">
+			</h2>
+			<br>
 
-	<h2>店舗登録</h2>
-	<form action="str_save.php" method="post">
-		<input type="hidden" name="act" value="<?php echo $act; ?>">
-		<table>
-			<tr>
-				<td>店舗ID:</td>
-				<td><input type="text" name="$STORE_ID"
-					value=<?php echo  uniqid(rand().'_'); ?>></td>
-			</tr>
-			<tr>
-				<td>店舗名（必須）：</td>
-				<td><input type="text" name="STORE_NAME"
-					value="<?php echo $STORE_NAME;?>">（全角）</td>
-			</tr>
+			<h2>店舗登録</h2>
+			<form action="str_save.php" method="post">
+				<input type="hidden" name="act" value="<?php echo $act; ?>">
+				<table>
+					<tr>
+						<td>店舗ID:</td>
+						<td><input type="text" name="$STORE_ID"
+							value="<?php echo  uniqid(rand().'_'); ?>"></td>
+					</tr>
+					<tr>
+						<td>店舗名（必須）：</td>
+						<td><input type="text" name="STORE_NAME"
+							value="<?php echo $STORE_NAME;?>">（全角）</td>
+					</tr>
 
-			<tr>
-				<td>住所（必須）：</td>
-				<td><input type="text" name="ADDRESS">（全角）</td>
-			</tr>
+					<tr>
+						<td>住所（必須）：</td>
+						<td><input type="text" name="ADDRESS">（全角）</td>
+					</tr>
 
-			<tr>
-				<td>営業時間（任意）：</td>
-				<td>
+					<tr>
+						<td>営業時間（任意）：</td>
+						<td>
 <?php
 echo '<select name="OP_HOUR">';
 for($a = - 1; $a <= 23; $a ++) {
@@ -99,43 +100,44 @@ for($d = - 1; $d <= 5; $d ++) {
 echo '</select>';
 ?>
 </td>
-			</tr>
+					</tr>
 
-			<tr>
-				<td>移動時間（任意）：</td>
-				<td><select name="MOVE_TIME">
-						<option value="a">--</option>
-						<option value="b">5分未満</option>
-						<option value="c">5分～10分</option>
-						<option value="d">10分～15分</option>
-						<option value="e">15分～20分</option>
-						<option value="f">20分～25分</option>
-						<option value="g">25分～30分</option>
-						<option value="h">30分以上</option>
-				</select></td>
-			</tr>
+					<tr>
+						<td>移動時間（任意）：</td>
+						<td><select name="MOVE_TIME">
+								<option value=0>--</option>
+								<option value=1>5分未満</option>
+								<option value=2>5分～10分</option>
+								<option value=3>10分～15分</option>
+								<option value=4>15分～20分</option>
+								<option value=5>20分～25分</option>
+								<option value=6>25分～30分</option>
+								<option value=7>30分以上</option>
+						</select></td>
+					</tr>
 
-			<tr>
-				<td>定休日（任意）：</td>
-				<td><input type="checkbox" name="HOLIDAY[]" value=d1 />日曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d2 />月曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d3 />火曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d4 />水曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d5 />木曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d6 />金曜日<input
-					type="checkbox" name="HOLIDAY[]" value=d7 />土曜日</td>
-			</tr>
+					<tr>
+						<td>定休日（任意）：</td>
+						<td><input type="checkbox" name="HOLIDAY[]" value=1 />日曜日<input
+							type="checkbox" name="HOLIDAY[]" value=2 />月曜日<input
+							type="checkbox" name="HOLIDAY[]" value=3 />火曜日<input
+							type="checkbox" name="HOLIDAY[]" value=4 />水曜日<input
+							type="checkbox" name="HOLIDAY[]" value=5 />木曜日<input
+							type="checkbox" name="HOLIDAY[]" value=6 />金曜日<input
+							type="checkbox" name="HOLIDAY[]" value=7 />土曜日 <input
+							type="hidden" name="HOLIDAY[]" value=0 />なし</td>
+					</tr>
 
-			<tr>
-				<td>ホームページのURL（任意）：</td>
-				<td><input type="text" name="HP_URL" />（半角英数字）</td>
-			</tr>
+					<tr>
+						<td>ホームページのURL（任意）：</td>
+						<td><input type="text" name="HP_URL" />（半角英数字）</td>
+					</tr>
 
 
-		</table>
-		<input type="submit" value="登録">
-	</form>
-</div>
-</div>
+				</table>
+				<input type="submit" value="登録">
+			</form>
+		</div>
+	</div>
 </body>
 </html>
