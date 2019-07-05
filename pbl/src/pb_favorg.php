@@ -85,7 +85,7 @@ echo '<tr>' . '<h3>';
 echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . $store_name . '</td>';
 echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $evaluation * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
 echo '<br>';
-echo '<td>' . "住所" . '&nbsp;' . '&nbsp;' . $address . '</td>'; // 住所
+echo '<td>' . "住所" . '&nbsp;' . '&nbsp;' . $address . '</td>';
 echo '<br>';
 $holiday = array (
 		0 => 'なし',
