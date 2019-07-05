@@ -11,8 +11,10 @@ require_once ('db_inc.php');
 
 if (isset ( $_POST ['act'] )) {
 	$act = $_POST ['act'];
-	$STORE_ID = $_POST ['STORE_ID'];
-	$STORE_NAME = $_POST ['STORE_NAME'];$STORE_NAME = '';
+	if (isset($_POST['STORE_ID'])) {
+		$STORE_ID = $_POST ['STORE_ID'];
+	}
+	$STORE_NAME = $_POST ['STORE_NAME'];
 	$ADDRESS = $_POST ['ADDRESS'];
 	$OP_HOUR = $_POST ['OP_HOUR'];
 	$OP_MIN = $_POST ['OP_MIN'];
@@ -21,8 +23,6 @@ if (isset ( $_POST ['act'] )) {
 	$MOVE_TIME = $_POST ['MOVE_TIME'];
 	if (isset($_POST['HOLIDAY']) && is_array($_POST['HOLIDAY'])) {
 		$HOLIDAY = $_POST['HOLIDAY'];
-	}else if (empty($_POST ['HOLIDAY'])) {
-		$_POST ['HOLIDAY'] = 'なし';
 	}
 	$HP_URL = $_POST ['HP_URL'];
 
@@ -35,9 +35,21 @@ if (isset ( $_POST ['act'] )) {
 	mb_regex_encoding("UTF-8");
 
 
+	if($OP_HOUR == -1 && $OP_MIN == 1 && $CL_HOUR == -1 && $CL_MIN == -1){
+		$OP_HOUR = NULL;
+		$OP_MIN = NULL;
+		$CL_HOUR = NULL;
+		$CL_MIN = NULL;
+	}
+
+	if($MOVE_TIME == 0){
+		$MOVE_TIME = NULL;
+	}
+
+
 	if (empty ( $_POST ['STORE_NAME'] ) || empty ( $_POST ['ADDRESS'] )) {
 
-		$error_1 = 'エラー：登録が必須の項目に入力が行われていません';
+		$error_1 = 'エラー：入力が必須の項目に入力が行われていません';
 	}
 
 	if (!preg_match("/^[ぁ-んァ-ヶー一-龠]+$/u",$STORE_NAME) && $STORE_NAME != "") {
@@ -74,14 +86,15 @@ if (isset ( $_POST ['act'] )) {
 
 
 	// 店舗情報を新規作成する場合のSQL文
-	$sql = "INSERT INTO T_RSTINFO VALUES
-    	('{$STORE_ID}','{$STORE_NAME}','{$ADDRESS}','{$OP_HOUR}','{$OP_MIN}',
-    	'{$CL_HOUR}','{$CL_MIN}','{$MOVE_TIME}','{$HOLIDAY}','{$HP_URL}')";
+	$sql = "INSERT INTO t_rstinfo VALUES
+    	('{$STORE_ID}' , '{$STORE_NAME}' , '{$ADDRESS}' , {$OP_HOUR} , {$OP_MIN} ,
+    	{$CL_HOUR} , {$CL_MIN} , {$MOVE_TIME} , {$HOLIDAY} , '{$HP_URL}' )";
 
-	mysql_query($sql,$conn);
+	$rs = mysql_query($sql,$conn);
 	if (!$rs) die('エラー: ' . mysql_error());
 
 	header('Location:kokosuko.php');
+
 
 	}
 }
@@ -90,3 +103,4 @@ if (isset ( $_POST ['act'] )) {
 </div>
 </div>
 </body>
+</html>
