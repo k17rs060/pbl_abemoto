@@ -7,14 +7,13 @@
   require_once('db_inc.php'); //データベースが必要なので読み込ませる
   $u = $_POST['USER_ID'] ;
   $p = $_POST['USER_PASS'];
-  $sql = "SELECT * FROM T_USER WHERE USER_ID= '{$u}'  AND USER_PASS='{$p}'";
+  $sql = "SELECT * FROM t_user WHERE USER_ID= '{$u}'  AND USER_PASS='{$p}'";
   $rs = mysql_query($sql, $conn);
   if (!$rs) die('エラー: ' . mysql_error());
   $row= mysql_fetch_array($rs);
   if ($row){ //Login succeeded
     $_SESSION['USER_ID']   = $row['USER_ID'];
     $_SESSION['ACCOUNT_NAME'] = $row['ACOUNT_NAME'];
-    $_SESSION['urole'] = $row['urole'];
     header('Location:pb_home.php');
     exit();
   }else{
