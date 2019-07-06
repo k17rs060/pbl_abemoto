@@ -8,8 +8,8 @@ require_once ('db_inc.php');
 // $stid = strtoupper($utid);
 
 // ///////////// ホーム画面から店舗のデータを受け取る ///////////////
-// $store_id = $POST ['STORE_ID'];
-// $store_id = 'STORE_INFO';
+//$store_id = $_GET['STORE_ID'];
+// $store_id = 'STORE_ID';
 
 // ///////////// 仮の情報 ///////////////
 $urole = 1;
@@ -39,15 +39,6 @@ if ($row) {
 	$cl_min = $row ['CL_MIN'];
 	$hp_url = $row ['HP_URL'];
 	$user_id = $row ['USER_ID'];
-
-	if ($op_hour == NULL)
-		$op_hour = 99;
-	if ($op_min == NULL)
-		$op_min = 99;
-	if ($cl_hour == NULL)
-		$cl_hour = 99;
-	if ($cl_min == NULL)
-		$cl_min = 99;
 }
 
 $avg = mysql_fetch_array ( $rs2 );
@@ -98,7 +89,7 @@ $holiday = array (
 		7 => '土曜日'
 );
 $i = $row ['HOLIDAY'];
-if ($op_hour == 99 || $op_min == 99 || $cl_hour == 99 || $cl_min == 99) {
+if ($op_hour == -1 || $op_min == -1 || $cl_hour == -1 || $cl_min == -1) {
 	echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . "--" . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' .
 	      "定休日" . '&nbsp;' . '&nbsp;' . $holiday [$i] . '</td>';
 } else {
@@ -124,7 +115,7 @@ echo '<br>';
 if ($hp_url == NULL) {
 	echo '<td>' . "ホームページのURL" . '&nbsp;' . '&nbsp;' . '--' . '</td>';
 } else {
-	echo '<td>' . "ホームページのURL" . '&nbsp;' . '&nbsp;' . '<a href="eps_list.php">' . $hp_url . '</a>' . '</td>';
+	echo '<td>' . "ホームページのURL" . '&nbsp;' . '&nbsp;' . '<a href=',$row['HP_URL'],'>' . $hp_url . '</a>' . '</td>';
 }
 echo '<br>';
 
@@ -159,22 +150,13 @@ if (! $rs)
 	die ( 'エラー: ' . mysql_error () );
 
 $row = mysql_fetch_array ( $rs );
+$review_id = NULL;
 if ($row) {
 	$review_id = $row ['REVIEW_ID'];
 	$evaluation_points = $row ['EVALUATION_POINTS'];
 	$comment = $row ['COMMENT'];
 	$cuser_id = $row ['USER_ID'];
 	$store_id = $row ['STORE_ID'];
-	if (! $review_id)
-		$review_id = $row ["NULL"];
-	if (! $evaluation_points)
-		$evaluation_points = $row [0];
-	if (! $comment)
-		$comment = $row ["NULL"];
-	if (! $ruser_id)
-		$cuser_id = $row ["NULL"];
-	if (! $store_id)
-		$store_id = "NULL";
 }
 
 if (! isset ( $_GET ['page_id'] )) {
@@ -189,7 +171,7 @@ while ( $row ) {
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
 	if ($row ['USER_ID'] == $ruser_id) {
 		echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>' .
-		     '<a href="res_delete.php?&REVIEW_ID=' . $review_id . '&STORE_NAME=' . $store_name . '">' .
+		     '<a href="res_delete.php?&REVIEW_ID=' . $review_id . '&STORE_ID=' . $store_id . '">' .
 		     "口コミ削除" . '</a>' . '</button>' . '</td>';
 	}
 	echo '<br>';
@@ -199,7 +181,7 @@ while ( $row ) {
 		$title = mb_strimwidth ( ($row ['COMMENT']), 0, $limit, "...", "UTF-8" );
 
 		echo '<td>' . $title . '</td>';
-		echo '<td>' . '<a href="eps_list.php">' . "もっと見る" . '</a>' . '</td>';
+		echo '<td><a href="pb_details.php?&REVIEW_ID=' .$row['REVIEW_ID'] . '&STORE_ID=' . $store_id . '&page_id=' . $_GET['page_id'] .'">もっと見る</a></td>';
 	} else {
 		echo '<td>' . $row ['COMMENT'] . '</td>';
 	}
@@ -210,7 +192,9 @@ while ( $row ) {
 	echo '<hr>';
 	$row = mysql_fetch_array ( $rs ); // 次の行へ
 }
-
+if($review_id==NULL){
+	echo"エラー";
+}
 // ///////////// ページの処理 ///////////////
 for($i = 1; $i <= $max_page; $i ++) {
 	if ($i == $now) {

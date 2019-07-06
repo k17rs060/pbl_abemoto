@@ -13,7 +13,6 @@ $CL_MIN = 0;
 $MOVE_TIME = 0;
 $HOLIDAY = 0;
 $HP_URL = '';
-
 ?>
 
 <html>
@@ -37,7 +36,7 @@ $HP_URL = '';
 				<table>
 					<tr>
 						<td>店舗ID:</td>
-						<td><input type="text" name="$STORE_ID"
+						<td><input type="text" name="STORE_ID"
 							value="<?php echo  uniqid(rand().'_'); ?>"></td>
 					</tr>
 					<tr>
@@ -125,7 +124,8 @@ echo '</select>';
 							type="checkbox" name="HOLIDAY[]" value=5 />木曜日<input
 							type="checkbox" name="HOLIDAY[]" value=6 />金曜日<input
 							type="checkbox" name="HOLIDAY[]" value=7 />土曜日 <input
-							type="hidden" name="HOLIDAY[]" value=0 />なし</td>
+							type="hidden" name="HOLIDAY[]" value=0 />なし
+							</td>
 					</tr>
 
 					<tr>
