@@ -10,40 +10,30 @@ header('content-Type: text/html; charset=UTF-8');
 <body>
 <?php
 require_once ('db_inc.php');
-//$USER_ID = $_SESSION['$USER_ID'];
-$STORE_ID = $_GET ['STORE_ID'];
-$STORE_NAME = $_GET ['STORE_NAME'];
+$USER_ID = $_POST['USER_ID'];
+$STORE_ID = $_POST ['STORE_ID'];
+//$STORE_NAME = $_GET ['STORE_NAME'];
 if (isset ( $_POST ['act'] )) {
 	$act = $_POST ['act'];
-	if(isset($REVIEW_ID)){
+	if(isset($_POST['REVIEW_ID'])){
 		$REVIEW_ID = $_POST['REVIEW_ID'];
 	}
 		$EVALUATION_POINT = $_POST ['EVALUATION_POINT'];
 		$COMMENT = $_POST ['COMMENT'];
-
-
 	if (empty( $_POST ['COMMENT'] )) {
-
-
 		require_once('rev_registration.php');
 		?>
 		<br>
 		<?php
 		echo "<h3>エラー：必須登録の項目に入力が無いため登録できません</h3>";
 	} else {
-
-
 		// アカウントを新規作成する場合のSQL文
-		$sql = "INSERT INTO t_review VALUES ('{$REVIEW_ID}','$EVALUATION_POINT','{$COMMENT}')";
-
+		$sql = "INSERT INTO t_review VALUES ('{$REVIEW_ID}','$EVALUATION_POINT','{$COMMENT}','{$USER_ID}','{$STORE_ID}')";
 		$rs = mysql_query ( $sql, $conn );
 		if(!$rs)die('エラー：'.mysql_error());
-
-		header ( 'Location:pb_favorg.php' );
-
+		header ( 'Location:pb_favorg.php?page_id=1' );
 	}
 }
-
 ?>
 </body>
 </html>

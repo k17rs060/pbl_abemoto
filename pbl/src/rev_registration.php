@@ -2,9 +2,11 @@
 <?php
 require_once('db_inc.php');
 //$USER_ID = $_SESSION['$USER_ID'];
-$STORE_ID = $_SESSION ['STORE_ID'];
-$STORE_NAME = $_SESSION ['STORE_NAME'];
-
+//$STORE_ID = $_SESSION ['STORE_ID'];
+//$STORE_NAME = $_SESSION ['STORE_NAME'];
+$STORE_ID ='r001';
+$STORE_NAME ='ファミレス';
+$USER_ID ="s001";
 $act = 'insert';
 $REVIEW_ID = '';
 $EVALUATION_POINT = 0;
@@ -21,14 +23,16 @@ $COMMENT = '';
 <?php
 // $sql = "SELECT * FROM T_RSTINFO WHERE STORE_ID='{$STORE_ID}'";
 
-		echo "<h4>$STORE_NAME</h4>";
+echo "<h4>$STORE_NAME</h4>";
 		echo "<h4>への口コミ</h4>";
 ?>
 </h2>
 <h3>口コミ登録</h3>
 <input type = "hidden" name = "act" value = "<?php echo $act; ?>">
+<input type = "hidden" name = "USER_ID" value = "<?php echo $USER_ID; ?>">
+<input type = "hidden" name = "STORE_ID" value = "<?php echo $STORE_ID; ?>">
 <table><tr>
-<td><input type="text" name="$REVIEW_ID" value="<?php echo uniqid(rand().'_');?>">
+<td><input type="text" name="REVIEW_ID" value="<?php echo uniqid(rand().'_');?>">
 </td></tr>
 <tr><td>評価点</td></tr><tr><td>
  <input type="radio" name="EVALUATION_POINT" value="1"/>1
