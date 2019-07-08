@@ -1,45 +1,53 @@
 <h2>ココすこ！！</h2>
+
 <?php
+
 require_once ('db_inc.php');
-// ///////////// ログインユーザーの確認 ///////////////
-// $uid = $_SESSION['USER_ID'];
-// $sid = strtoupper($uid);
-// $utid = $_SESSION['USER_TYPE_ID'];
-// $stid = strtoupper($utid);
+$LOGIN_ID =$_GET['login_id'];
+$user = "SELECT * FROM t_user WHERE USER_ID = '$LOGIN_ID'";
+$urs = mysql_query ( $user, $conn );
+if (! $urs)
+	die ( 'エラー: ' . mysql_error () );
 
-// ///////////// ホーム画面から店舗のデータを受け取る ///////////////
-// $store_id = $POST ['STORE_ID'];
-// $store_id = 'STORE_INFO';
+$urow = mysql_fetch_array ( $urs );
+if ($urow) {
+	$urole = $urow ['urole'];
 
-// ///////////// 仮の情報 ///////////////
-$urole = 1;
-$ruser_id = 'u001';
-//$store_id = "r001";
-
-// ///////////// ボタン表示 ///////////////
+}
+//$sql =""
 echo '<tr>';
 
-echo '<td align="center"><button><a href="pb_home.php">戻る</a></button></td>';
+
 
 if ($urole == 1) {
+	echo '<td align="center"><button><a href="str_create.php">店舗登録</a></button></td>';
+}
 	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
-} else {
 
-	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログオフ</a>
-		 </button></td>';
+?>
+</tr>
+<br><br>
+<form action ="" method "GET">
+<td><input type="text" name = "search" value = ""><td align="center">&nbsp;&nbsp;&nbsp;<input type ="submit" value= "検索"></td>
+<br>
+<?php
+if(isset($_GET['search'])){
+	$search = $_GET['search'];
+}else{
+	$search ="";
 }
-echo '</tr>';
-echo '<br><br>';
-echo'<td><input type="text" name = "search" value = ""><td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<input type ="submit" value= "検索"></td>';
-echo '<br>';
+?>
+</form>
+<?php
 
-//if(isset($_GET['search'])){
 
-//}
 // ///////////// 店舗情報をデータベースから呼び出す ///////////////
+if($search == 0){
 $cnt = "SELECT COUNT(*) as cnt FROM t_rstinfo WHERE STORE_ID";
-
+}else{
+	$cnt = "SELECT COUNT(*) as cnt FROM t_rstinfo LIKE '%$search%'";
+}
 $rs = mysql_query ( $cnt, $conn );
 if (! $rs)
 	die ( 'エラー: ' . mysql_error () );
@@ -50,24 +58,24 @@ if ($ecnt) {
 }
 
 $max_page = ceil ( $cnt / 10 );
-
-if ($_GET ['page_id'] == 1) {
-	$max = "SELECT * FROM t_rstinfo  LIMIT 10 ";
-} else {
-	for($i = 1; $i <= $_GET ['page_id']; $i ++) {
-		$max = "SELECT * FROM t_rstinfo LIMIT 10 OFFSET " . $i;
-	}
+if($search==""){
+	$max = "SELECT * FROM t_rstinfo LIMIT 10";
+}else if($_GET ['page_id'] != 1){
+$max = "SELECT * FROM t_rstinfo WHERE STORE_NAME LIKE '%$search%'";
+}elseif($search!=""){
+for($i = 1; $i <= $_GET ['page_id']; $i ++) {
+		$max = "SELECT * FROM t_review WHERE STORE_ID ='$STORE_ID  'LIMIT 10 OFFSET " . $i;
+}
 }
 $AVG = "SELECT AVG(EVALUATION_POINTS) as avg FROM t_review WHERE STORE_ID";
 $rs1 = mysql_query ( $AVG, $conn );
 if (! $rs1)
 	die ( 'エラー: ' . mysql_error () );
-
 $avg = mysql_fetch_array ( $rs1 );
 if ($avg) {
 	$evaluation = $avg ['avg'];
 }
-
+//$EVALUTION=  floor ( $evaluation * pow ( 10, 1 ) ) / pow ( 10, 1 );
 $rs2 = mysql_query ( $max, $conn );
 
 if (! $rs2)
@@ -84,7 +92,7 @@ if ($row) {
 	$cl_min = $row ['CL_MIN'];
 	$hp_url = $row ['HP_URL'];
 	$user_id = $row ['USER_ID'];
-
+	$EVALUATION =$row['EVALUATION'];
 }
 
 if (! isset ( $_GET ['page_id'] )) {
@@ -95,8 +103,8 @@ if (! isset ( $_GET ['page_id'] )) {
 
 while ( $row ) {
 	echo '<tr>' . '<h3>';
-	echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id=1&STORE_ID=' . $row['STORE_ID'] . '">' . $row['STORE_NAME'] . '</a>' . '</td>';
-	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $evaluation * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
+	echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id=1&STORE_ID=' . $row['STORE_ID'] .'&USER_ID=' . $row['USER_ID'] .'&login_id=' . $LOGIN_ID. '">' . $row['STORE_NAME'] . '</a>' . '</td>';
+	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $row['EVALUATION'] * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
 	echo '<br>';
 	$holiday = array (
 			0 => 'なし',
@@ -118,6 +126,7 @@ while ( $row ) {
 
 	echo '</h3>' . '</tr>';
 	echo '<hr>';
+
 	$row = mysql_fetch_array ( $rs2); // 次の行へ
 }
 

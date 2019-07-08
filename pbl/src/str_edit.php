@@ -13,14 +13,11 @@ $CL_MIN = '';
 $MOVE_TIME = '';
 $HOLIDAY = '';
 $HP_URL = 0;
-
-$sql = "SELECT * FROM T_STRINFO WHERE STORE_ID='{$STORE_ID}'";
-
+$sql = "SELECT * FROM t_rstinfo WHERE STORE_ID='{$STORE_ID}'";
 // データベースへ問合せのSQL($sql)を実行する・・・
 $rs = mysql_query ( $sql, $conn );
 if (! $rs)
 	die ( 'エラー: ' . mysql_error () );
-
 // 問合せ結果を取得し、変数に代入
 $row = mysql_fetch_array ( $rs );
 if ($row) { // 既存アカウントを編集するために、問合せ結果を$pid,$reasonに代入
@@ -44,7 +41,7 @@ if ($row) { // 既存アカウントを編集するために、問合せ結果�
 <div class="wrapper">
 <div id="navbar">
 	<h2>
-		<input type="reset" value="戻る" onclick="location.href = 'kokosuko.php'">
+		<input type="reset" value="戻る" onclick="location.href = 'pb_favorg.php?page_id=1&login_id='.$LOGIN_ID.'">
 	</h2>
 	<br>
 

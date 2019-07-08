@@ -1,20 +1,20 @@
 <h2>ココすこ！！</h2>
 <?php
 require_once ('db_inc.php');
-// ///////////// ログインユーザーの確認 ///////////////
-// $uid = $_SESSION['USER_ID'];
-// $sid = strtoupper($uid);
-// $utid = $_SESSION['USER_TYPE_ID'];
-// $stid = strtoupper($utid);
-
 // ///////////// ホーム画面から店舗のデータを受け取る ///////////////
-//$store_id = $_GET['STORE_ID'];
-// $store_id = 'STORE_ID';
+$STORE_ID = $_GET['STORE_ID'];
+$LOGIN_ID = $_GET['login_id'];
 
-// ///////////// 仮の情報 ///////////////
-$UROLE = 1;
-$RUSER_ID = 'u001';
-$STORE_ID = "r001";
+$user = "SELECT * FROM t_user WHERE USER_ID = '$LOGIN_ID'";
+$urs = mysql_query ( $user, $conn );
+if (! $urs)
+	die ( 'エラー: ' . mysql_error () );
+
+$urow = mysql_fetch_array ( $urs );
+if ($urow) {
+	$UROLE = $urow ['urole'];
+
+}
 
 // ///////////// 店舗情報をデータベースから呼び出す ///////////////
 $sql = "SELECT * FROM t_rstinfo WHERE STORE_ID = '$STORE_ID'";
@@ -49,25 +49,19 @@ if ($avg) {
 // ///////////// ボタン表示 ///////////////
 echo '<tr>';
 
-echo '<td align="center"><button><a href="pb_home.php">戻る</a></button></td>';
+echo '<td align="center"><button><a href="pb_home.php?page_id=1&login_id='.$LOGIN_ID.'">戻る</a></button></td>';
 
-if ($USER_ID == $RUSER_ID) {
+if ($USER_ID == $LOGIN_ID) {
 	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
-	      <a href="usr_create.php">店舗編集</a></button></td>';
+	      <a href="str_edit.php?&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME. '">店舗編集</a></button></td>';
 
 	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
-		<a href="str_delete.php?&STORE_ID=' . $STORE_ID . '&STORE_NAME=' . $STORE_NAME . '">店舗削除</a></button></td>';
+		<a href="str_delete.php?STORE_ID=' . $STORE_ID . '&STORE_NAME=' . $STORE_NAME .'&login_id='.$LOGIN_ID.'">店舗削除</a></button></td>';
 }
-
-if ($UROLE == 1) {
 	echo '<td align="center">' . '&nbsp;' . '&nbsp;' .'&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
 
-} else {
 
-	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログオフ</a>
-		 </button></td>';
-}
 echo '</tr>';
 echo '<br>';
 
@@ -120,7 +114,7 @@ if ($HP_URL == NULL) {
 echo '<br>';
 
 if ($UROLE == 1) {
-	echo '<td align="center"><button><a href="eps_list.php">口コミ登録</a></button></td>';
+	echo '<td align="center"><button><a href="rev_registration.php?&STORE_ID='.$STORE_ID.'&STORE_NAME='.$STORE_NAME.'&page_id='. $_GET['page_id'] .'&login_id='.$LOGIN_ID.'">口コミ登録</a></button></td>';
 }
 echo '</h3>' . '</tr>';
 echo '<hr>';
@@ -169,9 +163,9 @@ while ( $row ) {
 	echo '<tr>';
 	echo '<td>' . $row ['REVIEW_ID'] . '</td>';
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
-	if ($row ['USER_ID'] == $RUSER_ID) {
+	if ($row ['USER_ID'] == $LOGIN_ID) {
 		echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>' .
-		     '<a href="res_delete.php?&REVIEW_ID=' . $REVIEW_ID . '&STORE_ID=' . $STORE_ID . '">' .
+		     '<a href="res_delete.php?&REVIEW_ID=' . $REVIEW_ID . '&STORE_ID=' . $STORE_ID .'&login_id='.$LOGIN_ID.'">' .
 		     "口コミ削除" . '</a>' . '</button>' . '</td>';
 	}
 	echo '<br>';
@@ -181,7 +175,7 @@ while ( $row ) {
 		$title = mb_strimwidth ( ($row ['COMMENT']), 0, $limit, "...", "UTF-8" );
 
 		echo '<td>' . $title . '</td>';
-		echo '<td><a href="pb_details.php?&REVIEW_ID=' .$row['REVIEW_ID'] . '&STORE_ID=' . $STORE_ID . '&page_id=' . $_GET['page_id'] .'">もっと見る</a></td>';
+		echo '<td><a href="pb_details.php?&REVIEW_ID=' .$row['REVIEW_ID'] . '&STORE_ID=' . $STORE_ID . '&page_id=' . $_GET['page_id'] .'&login_id='.$LOGIN_ID.'">もっと見る</a></td>';
 	} else {
 		echo '<td>' . $row ['COMMENT'] . '</td>';
 	}
@@ -193,16 +187,16 @@ while ( $row ) {
 	$row = mysql_fetch_array ( $rs ); // 次の行へ
 }
 if($REVIEW_ID==NULL){
-	echo"エラー";
+	echo'<h3>'."口コミは登録されていません".'</h3>';
 }
 // ///////////// ページの処理 ///////////////
 for($i = 1; $i <= $max_page; $i ++) {
 	if ($i == $now) {
 		echo $now . ' ';
 	} else if ($i == 1) {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', $i, '\'>' . $i . '</a>', ' ';
+		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', $i,'&STORE_ID=' . $STORE_ID .'&USER_ID='.$USER_ID_ID.'&login_id='.$LOGIN_ID. '\'>' . $i . '</a>', ' ';
 	} else {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', (($i * 10) - 10), '\'>' . $i . '</a>', ' ';
+		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', (($i * 10) - 10), '&STORE_ID=' . $STORE_ID .'&USER_ID='.$USER_ID.'&login_id='.$LOGIN_ID.'\'>' . $i . '</a>', ' ';
 	}
 }
 

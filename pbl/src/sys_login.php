@@ -6,10 +6,10 @@
 <h2>ココすこ！！</h2>
 <div style="display:inline-flex">
 <h1>ログイン</h1>&nbsp;&nbsp;
-<form action="pb_home.php">
-<input type="submit" value="ゲストはこちら">
-</form>
 </div>
+<?php
+echo '<td align="center"><button><a href="pb_home.php?page_id=1&login_id=t001">ゲストはこちら</a></button></td>';
+?>
 <form action="sys_check_login.php" method="post">
 <table>
 <tr><td>ユーザID：</td><td><input type="text" name="USER_ID"></td></tr>
