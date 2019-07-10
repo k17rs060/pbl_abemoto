@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <?php
 require_once('db_inc.php');
-//$USER_ID = $_SESSION['$USER_ID'];
-//$STORE_ID = $_SESSION ['STORE_ID'];
-//$STORE_NAME = $_SESSION ['STORE_NAME'];
-$STORE_ID ='r001';
-$STORE_NAME ='ファミレス';
-$USER_ID ="s001";
+session_start ();
+$USER_ID = $_SESSION['USER_ID'];
+$STORE_ID =  $_GET['STORE_ID'];
+$STORE_NAME = $_GET ['STORE_NAME'];
+
 $act = 'insert';
 $REVIEW_ID = '';
 $EVALUATION_POINT = 0;
