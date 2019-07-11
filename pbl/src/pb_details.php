@@ -31,7 +31,7 @@ if ($row2) {
 
 // ///////////// 口コミを表示 ///////////////
 echo '<tr>';
-echo '<td align="center"><button><a href=\'/pbl/src/pb_favorg.php?page_id=', $PAGE_ID, '\'>' .
+echo '<td align="center"><button><a href=\'/pbl/src/pb_favorg.php?page_id=', $PAGE_ID,'&STORE_ID=', $STORE_ID, '\'>' .
      "戻る" . '</a></button></td>', ' ';
 echo '</tr>';
 

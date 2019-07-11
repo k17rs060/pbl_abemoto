@@ -19,7 +19,7 @@ echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="
 </tr>
 <br>
 <br>
-<form action=""method "GET">
+<form action="pb_home.php?page_id=1"method "GET">
 	<td><input type="text" name="search" value="">
 
 	<td align="center">&nbsp;&nbsp;&nbsp;<input type="submit" value="検索"></td>

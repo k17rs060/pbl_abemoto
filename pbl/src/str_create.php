@@ -26,7 +26,7 @@ $HP_URL = '';
 
 			<h2>
 				<input type="reset" value="戻る"
-					onclick="location.href = 'kokosuko.php'">
+					onclick="location.href = 'pb_home.php?page_id=1'">
 			</h2>
 			<br>
 

@@ -106,7 +106,7 @@ if ($HP_URL == NULL) {
 echo '<br>';
 
 if ($UROLE == 1) {
-	echo '<td align="center"><button><a href="rev_registration.php?STORE_ID='.$STORE_ID.'STORE_NAME='.$STORE_NAME.'">口コミ登録</a></button></td>';
+	echo '<td align="center"><button><a href="rev_registration.php?STORE_ID='.$STORE_ID.'&STORE_NAME='.$STORE_NAME.'">口コミ登録</a></button></td>';
 
 }
 echo '</h3>' . '</tr>';
@@ -155,11 +155,10 @@ if (! isset ( $_GET ['page_id'] )) {
 while ( $row ) {
 	echo '<tr>';
 	echo '<td>' . $row ['REVIEW_ID'] . '</td>';
-	$_SESSION['REVIEW_ID'] = $row ['REVIEW_ID'];
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
 	if ($row ['USER_ID'] == $LOGIN_ID) {
 		echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>' .
-		     '<a href="rev_delete.php?&page_id='.$_GET['page_id'].'&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME .'">' .
+		     '<a href="rev_delete.php?&page_id='.$_GET['page_id'].'&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME .'&REVIEW_ID='.$row['REVIEW_ID'].'">' .
 		     "口コミ削除" . '</a>' . '</button>' . '</td>';
 	}
 	echo '<br>';
@@ -169,7 +168,7 @@ while ( $row ) {
 		$title = mb_strimwidth ( ($row ['COMMENT']), 0, $limit, "...", "UTF-8" );
 
 		echo '<td>' . $title . '</td>';
-		echo '<td><a href="pb_details.php?&STORE_ID=' . $STORE_ID . '&page_id='.$_GET['page_id'].'">もっと見る</a></td>';
+		echo '<td><a href="pb_details.php?REVIEW_ID='.$row['REVIEW_ID'].'&STORE_ID=' . $STORE_ID . '&page_id='.$_GET['page_id'].'">もっと見る</a></td>';
 	} else {
 		echo '<td>' . $row ['COMMENT'] . '</td>';
 	}
