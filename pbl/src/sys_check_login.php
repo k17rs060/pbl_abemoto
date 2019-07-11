@@ -18,7 +18,7 @@ if ($row) { // Login succeeded
 	$_SESSION ['USER_ID'] = $row ['USER_ID'];
 	$_SESSION ['ACCOUNT_NAME'] = $row ['ACOUNT_NAME'];
 	$_SESSION ['urole'] = $row ['urole'];
-	header('Location:pb_home.php?page_id=1');
+	header('Location:pb_home.php?page_id=1&search=search');
 	//header ( 'Location:pb_home.php' );
 	// exit();
 } else {

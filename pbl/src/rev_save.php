@@ -31,7 +31,7 @@ if (isset ( $_POST ['act'] )) {
 		$sql = "INSERT INTO t_review VALUES ('{$REVIEW_ID}','$EVALUATION_POINT','{$COMMENT}','{$USER_ID}','{$STORE_ID}')";
 		$rs = mysql_query ( $sql, $conn );
 		if(!$rs)die('エラー：'.mysql_error());
-		header ( 'Location:pb_favorg.php?page_id=1' );
+		header ( 'Location:pb_favorg.php?page_id=1&STORE_ID='.$STORE_ID.' ');
 	}
 }
 ?>

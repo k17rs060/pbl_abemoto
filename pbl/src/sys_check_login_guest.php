@@ -16,7 +16,7 @@ $row = mysql_fetch_array ( $rs );
 if ($row) { // Login succeeded
 	$_SESSION ['USER_ID'] = $row ['USER_ID'];
 	$_SESSION ['urole'] = $row ['urole'];
-	header('Location:pb_home.php?page_id=1');
+	header('Location:pb_home_g.php?page_id=1');
 } else {
 	require_once ('sys_login.php');
 	echo 'ユーザ名またはパスワードが間違っています。';

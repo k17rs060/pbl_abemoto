@@ -8,8 +8,9 @@
 <div id="navbar">
 <?php
 require_once ('db_inc.php');
+session_start ();
 $EVALUTION =0;
-$USER_ID= 'u001';
+$USER_ID= $_SESSION['USER_ID'];
 if (isset ( $_POST ['act'] )) {
 	$act = $_POST ['act'];
 	if (isset($_POST['STORE_ID'])) {
@@ -87,7 +88,7 @@ if (isset ( $_POST ['act'] )) {
 
 
 
-    header('Location:kokosuko.php');
+    header('Location:pb_home.php?page_id=1');
 
 	}
 }

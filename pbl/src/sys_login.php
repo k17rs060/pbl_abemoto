@@ -8,7 +8,7 @@
 <h1>ログイン</h1>&nbsp;&nbsp;
 </div>
 <?php
-echo '<td align="center"><button><a href="pb_home.php?page_id=1&login_id=t001">ゲストはこちら</a></button></td>';
+echo '<td align="center"><button><a href="sys_check_login_guest.php">ゲストはこちら</a></button></td>';
 ?>
 <form action="sys_check_login.php" method="post">
 <table>

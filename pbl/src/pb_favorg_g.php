@@ -45,14 +45,7 @@ echo '<td align="center"><button><a href="pb_home.php?page_id=1">戻る</a></but
 }else{
 	echo '<td align="center"><button><a href="pb_home.php?page_id=1&search='.$_GET['search'].'">戻る</a></button></td>';
 }
-if ($USER_ID == $LOGIN_ID) {
-	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
-	      <a href="str_edit.php?&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME. '">店舗編集</a></button></td>';
-
-	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
-		<a href="str_delete.php?STORE_ID=' . $STORE_ID . '&STORE_NAME=' . $STORE_NAME .'">店舗削除</a></button></td>';
-}
-	echo '<td align="center">' . '&nbsp;' . '&nbsp;' .'&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
+echo '<td align="center">' . '&nbsp;' . '&nbsp;' .'&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
 
 
@@ -183,10 +176,7 @@ if ($HP_URL == NULL) {
 }
 echo '<br>';
 
-if ($UROLE == 1) {
-	echo '<td align="center"><button><a href="rev_registration.php?STORE_ID='.$STORE_ID.'&STORE_NAME='.$STORE_NAME.'">口コミ登録</a></button></td>';
 
-}
 echo '</h3>' . '</tr>';
 echo '<hr>';
 

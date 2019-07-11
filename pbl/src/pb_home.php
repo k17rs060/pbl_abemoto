@@ -8,10 +8,7 @@ $LOGIN_ID = $_SESSION ['USER_ID'];
 $urole = $_SESSION ['urole'];
 //$page_id = $_GET ['page_id'];
 echo '<tr>';
-
-if ($urole == 1) {
-	echo '<td align="center"><button><a href="str_create.php">店舗登録</a></button></td>';
-}
+echo '<td align="center"><button><a href="str_create.php">店舗登録</a></button></td>';
 echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
 
@@ -19,12 +16,13 @@ echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="
 </tr>
 <br>
 <br>
-<form action="pb_home.php?page_id=1"method "GET">
+<form action="pb_home.php"method "GET">
 	<td><input type="text" name="search" value="">
 
 	<td align="center">&nbsp;&nbsp;&nbsp;<input type="submit" value="検索"></td>
 	<br>
 <?php
+
 if (isset ( $_GET ['search'] )) {
 	$search = $_GET ['search'];
 } else {
@@ -50,13 +48,22 @@ if ($ecnt) {
 }
 
 $max_page = ceil ( $cnt / 10 );
-if ($search == "") {
-	$max = "SELECT * FROM t_rstinfo LIMIT 10";
-} else if ($_GET ['page_id'] != 1) {
+//if(){
+
+//}else{
+
+if ($_GET ['page_id'] == 1 && isset($_GET['search'])) {
 	$max = "SELECT * FROM t_rstinfo WHERE STORE_NAME LIKE '%$search%'";
-} elseif ($search != "") {
+}elseif($_GET ['page_id'] != 1 && isset($_GET['search'])){
 	for($i = 1; $i <= $_GET ['page_id']; $i ++) {
-		$max = "SELECT * FROM t_review WHERE STORE_ID ='$STORE_ID  'LIMIT 10 OFFSET " . $i;
+	$max = "SELECT * FROM t_rstinfo WHERE STORE_NAME LIKE '%$search%' OFFSET " . $i;
+}
+}
+if ($_GET ['page_id'] == 1) {
+	$max = "SELECT * FROM t_rstinfo LIMIT 10  ";
+} else {
+	for($i = 1; $i <= $_GET ['page_id']; $i ++) {
+		$max = "SELECT * FROM t_rstinfo LIMIT 10 OFFSET " . $i;
 	}
 }
 $AVG = "SELECT AVG(EVALUATION_POINTS) as avg FROM t_review WHERE STORE_ID";
@@ -67,6 +74,7 @@ $avg = mysql_fetch_array ( $rs1 );
 if ($avg) {
 	$evaluation = $avg ['avg'];
 }
+
 // $EVALUTION= floor ( $evaluation * pow ( 10, 1 ) ) / pow ( 10, 1 );
 $rs2 = mysql_query ( $max, $conn );
 
@@ -84,7 +92,7 @@ if ($row) {
 	$cl_min = $row ['CL_MIN'];
 	$hp_url = $row ['HP_URL'];
 	$user_id = $row ['USER_ID'];
-	$EVALUATION = $row ['EVALUATION'];
+	$evaluation = $row['EVALUATION'];
 }
 
 
@@ -96,10 +104,14 @@ if (! isset ( $_GET ['page_id'] )) {
 
 while ( $row ) {
 	echo '<tr>' . '<h3>';
+	if(!isset($_GET['search']) ){
 	echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id=1&STORE_ID=' . $row ['STORE_ID'].'">' . $row ['STORE_NAME'] . '</a>' . '</td>';
-	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $row ['EVALUATION'] * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
+	}else{
+		echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id=1&STORE_ID=' . $row ['STORE_ID'].'&search='.$_GET['search'].'">' . $row ['STORE_NAME'] . '</a>' . '</td>';
+	}
+	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $row['EVALUATION'] * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
 	echo '<br>';
-	$holiday = array (
+	$HOLIDAY = array (
 			0 => 'なし',
 			1 => '日曜日',
 			2 => '月曜日',
@@ -110,11 +122,89 @@ while ( $row ) {
 			7 => '土曜日'
 	);
 	$i = $row ['HOLIDAY'];
-	if ($op_hour == - 1 || $op_min == - 1 || $cl_hour == - 1 || $cl_min == - 1) {
-		echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . "--" . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $holiday [$i] . '</td>';
-	} else {
-		echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . $op_hour . "：" . $op_min . "～" . $cl_hour . "：" . $cl_min . '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $holiday [$i] . '</td>';
-	}
+			$OP_HOUR = array(
+		   -1 =>'--',
+			0 =>'0',
+			1 =>'1',
+			2 =>'2',
+			3 =>'3',
+			4 =>'4',
+			5 =>'5',
+			6 =>'6',
+			7 =>'7',
+			8 =>'8',
+			9 =>'9',
+			10 =>'10',
+			11 =>'11',
+			12 =>'12',
+			13 =>'13',
+			14 =>'14',
+			15 =>'15',
+			16 =>'16',
+			17 =>'17',
+			18 =>'18',
+			19 =>'19',
+			20 =>'20',
+			21 =>'21',
+			22 =>'22',
+			23 =>'23'
+		);
+		$j = $row ['OP_HOUR'];
+		$OP_MIN=array(
+				-1 => '--',
+				0 =>'00',
+				1 =>'10',
+				2 =>'20',
+				3 =>'30',
+				4 =>'40',
+				5 =>'50',
+
+
+		);
+		$k = $row ['OP_MIN'];
+		$CL_HOUR = array(
+				-1 => '--',
+				0 =>'0',
+				1 =>'1',
+				2 =>'2',
+				3 =>'3',
+				4 =>'4',
+				5 =>'5',
+				6 =>'6',
+				7 =>'7',
+				8 =>'8',
+				9 =>'9',
+				10 =>'10',
+				11 =>'11',
+				12 =>'12',
+				13 =>'13',
+				14 =>'14',
+				15 =>'15',
+				16 =>'16',
+				17 =>'17',
+				18 =>'18',
+				19 =>'19',
+				20 =>'20',
+				21 =>'21',
+				22 =>'22',
+				23 =>'23'
+		);
+		$l = $row ['CL_HOUR'];
+		$CL_MIN=array(
+				-1 => '--',
+				0 =>'00',
+				1 =>'10',
+				2 =>'20',
+				3 =>'30',
+				4 =>'40',
+				5 =>'50',
+		);
+		$m = $row ['CL_MIN'];
+		if($j==-1||$k==-1||$l==-1||$m==-1){
+			echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' ."--". '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $HOLIDAY [$i] . '</td>';
+		}else{
+			echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . $OP_HOUR[$j] . "：" . $OP_MIN[$k] . "～" . $CL_HOUR[$l] . "：" . $CL_MIN[$m] . '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $HOLIDAY [$i] . '</td>';
+		}
 	echo '<br>';
 
 	echo '</h3>' . '</tr>';
@@ -128,9 +218,9 @@ for($i = 1; $i <= $max_page; $i ++) {
 	if ($i == $now) {
 		echo $now . ' ';
 	} else if ($i == 1) {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', $i, '\'>' . $i . '</a>', ' ';
-	} else {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', (($i * 10) - 10), '\'>' . $i . '</a>', ' ';
+		echo '<a href=\'/pbl/src/pb_home.php?page_id=', $i,'\'>' . $i . '</a>', ' ';
+	}else {
+		echo '<a href=\'/pbl/src/pb_home.php?page_id=', (($i * 10) - 10), '\'>' . $i . '</a>', ' ';
 	}
 }
 
