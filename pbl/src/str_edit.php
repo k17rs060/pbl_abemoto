@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 require_once ('db_inc.php');
+$store_id = $_GET['STORE_ID'];
 // 変数の初期化。新規登録か編集かにより異なる。
 $act = 'update'; // 編集の場合
 $STORE_ID = '';
@@ -41,11 +42,16 @@ if ($row) { // 既存アカウントを編集するために、問合せ結果�
 <div class="wrapper">
 <div id="navbar">
 	<h2>
-		<input type="reset" value="戻る" onclick="location.href = 'pb_favorg.php?page_id=1&login_id='.$LOGIN_ID.'">
+	<?php
+		echo '<tr>';
+echo '<td align="center"><button><a href=\'/pbl/src/pb_favorg.php?page_id=1&STORE_ID=', $store_id, '\'>' .
+     "戻る" . '</a></button></td>', ' ';
+echo '</tr>';
+	?>
 	</h2>
 	<br>
 
-	<h2>店舗登録</h2>
+	<h2>店舗編集</h2>
 	<form action="str_editsave.php" method="post">
 		<input type="hidden" name="act" value="<?php echo $act; ?>">
 		<table>

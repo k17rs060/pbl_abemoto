@@ -22,6 +22,8 @@ if (isset ( $_POST ['act'] )) {
 		$HOLIDAY = $_POST['HOLIDAY'];
 	}else if (empty($_POST ['HOLIDAY'])) {
 		$_POST ['HOLIDAY'] = 'なし';
+	}else{
+		$HOLIDAY ="なし";
 	}
 	$HP_URL = $_POST ['HP_URL'];
 	$error_1 = '';

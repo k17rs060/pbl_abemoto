@@ -6,7 +6,7 @@ require_once ('db_inc.php');
 $page_id = $_GET ['page_id'];
 echo '<tr>';
 
-echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
+echo '<td align="center"><button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
 
 ?>
