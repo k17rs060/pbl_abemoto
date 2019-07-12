@@ -2,7 +2,6 @@
 
 <?php
 require_once ('db_inc.php');
-// $LOGIN_ID =$_GET['login_id'];
 session_start ();
 $LOGIN_ID = $_SESSION ['USER_ID'];
 $urole = $_SESSION ['urole'];
@@ -19,23 +18,24 @@ echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="
 <form action="pb_search.php" method="post">
 	<td><input type="text" name="search" value=""> <td align="center">&nbsp;&nbsp;&nbsp;<input
 		type="submit" value="検索"></td>
-	<br>
-<?php
 
+<br>
+<?php
 if (isset ( $_GET ['search'] )) {
 	$search = $_GET ['search'];
 } else {
-	$search = "";
+	$search = NULL;
 }
 ?>
-</form>
+
+	</form>
 <?php
 
 // ///////////// 店舗情報をデータベースから呼び出す ///////////////
-if ($search == 0) {
+if ($search == NULL) {
 	$cnt = "SELECT COUNT(*) as cnt FROM t_rstinfo WHERE STORE_ID";
 } else {
-	$cnt = "SELECT COUNT(*) as cnt FROM t_rstinfo LIKE '%$search%'";
+	$cnt = "SELECT COUNT(*) as cnt FROM t_rstinfo WHERE STORE_NAME LIKE '%$search%'";
 }
 $rs = mysql_query ( $cnt, $conn );
 if (! $rs)
@@ -47,13 +47,8 @@ if ($ecnt) {
 }
 
 $max_page = ceil ( $cnt / 10 );
-// if(){
-
-// }else{
-
 if ($_GET ['page_id'] == 1 && $search == NULL) {
 	$max = "SELECT * FROM t_rstinfo LIMIT 10";
-
 } elseif ($_GET ['page_id'] != 1 && $search == NULL) {
 	for($i = 1; $i <= $_GET ['page_id']; $i ++) {
 		$max = "SELECT * FROM t_rstinfo  LIMIT 10 OFFSET " . $i;
@@ -65,22 +60,12 @@ if ($_GET ['page_id'] == 1 && $search == NULL) {
 		$max = "SELECT * FROM t_rstinfo  LIMIT 10 OFFSET " . $i;
 	}
 }
-$AVG = "SELECT AVG(EVALUATION_POINTS) as avg FROM t_review WHERE STORE_ID";
-$rs1 = mysql_query ( $AVG, $conn );
-if (! $rs1)
-	die ( 'エラー: ' . mysql_error () );
-$avg = mysql_fetch_array ( $rs1 );
-if ($avg) {
-	$evaluation = $avg ['avg'];
-}
-
-// $EVALUTION= floor ( $evaluation * pow ( 10, 1 ) ) / pow ( 10, 1 );
-$rs2 = mysql_query ( $max, $conn );
+	$rs2 = mysql_query ( $max, $conn );
 
 if (! $rs2)
 	die ( 'エラー: ' . mysql_error () );
 
-$row = mysql_fetch_array ( $rs2 );
+$row = mysql_fetch_array ($rs2);
 if ($row) {
 	$store_id = $row ['STORE_ID'];
 	$store_name = $row ['STORE_NAME'];
@@ -91,23 +76,23 @@ if ($row) {
 	$cl_min = $row ['CL_MIN'];
 	$hp_url = $row ['HP_URL'];
 	$user_id = $row ['USER_ID'];
-	$evaluation = $row ['EVALUATION'];
 }
+
 
 if (! isset ( $_GET ['page_id'] )) {
 	$now = 1;
 } else {
 	$now = $_GET ['page_id'];
 }
-
-while ( $row ) {
+while ($row) {
 	echo '<tr>' . '<h3>';
-if (! isset ( $_GET ['search'] )) {
+	if (! isset ( $_GET ['search'] )) {
 		echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id='.$page_id.'&STORE_ID=' . $row ['STORE_ID'] . '">' . $row ['STORE_NAME'] . '</a>' . '</td>';
 	} else {
 		echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . '<a href="/pbl/src/pb_favorg.php?page_id='.$page_id.'&STORE_ID=' . $row ['STORE_ID'] . '&search=' . $_GET ['search'] . '">' . $row ['STORE_NAME'] . '</a>' . '</td>';
 	}
-	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $row ['EVALUATION'] * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
+
+	echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" .  $row['EVALUATION']. "点" . '</td>';
 	echo '<br>';
 	$HOLIDAY = array (
 			0 => 'なし',
@@ -120,7 +105,7 @@ if (! isset ( $_GET ['search'] )) {
 			7 => '土曜日'
 	);
 	$i = $row ['HOLIDAY'];
-	$OP_HOUR = array (
+$OP_HOUR = array (
 			- 1 => '--',
 			0 => '0',
 			1 => '1',
@@ -201,13 +186,14 @@ if (! isset ( $_GET ['search'] )) {
 		echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . "--" . '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $HOLIDAY [$i] . '</td>';
 	} else {
 		echo '<td>' . "営業時間" . '&nbsp;' . '&nbsp;' . $OP_HOUR [$j] . "：" . $OP_MIN [$k] . "～" . $CL_HOUR [$l] . "：" . $CL_MIN [$m] . '&nbsp;' . '&nbsp;' . "定休日" . '&nbsp;' . '&nbsp;' . $HOLIDAY [$i] . '</td>';
-	}
-	echo '<br>';
+	}	echo '<br>';
 
 	echo '</h3>' . '</tr>';
 	echo '<hr>';
 
-	$row = mysql_fetch_array ( $rs2 ); // 次の行へ
+
+	$row = mysql_fetch_array ($rs2 ); // 次の行へ
+
 }
 
 // ///////////// ページの処理 ///////////////
