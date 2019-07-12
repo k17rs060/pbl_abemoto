@@ -2,9 +2,7 @@
 
 <?php
 require_once ('db_inc.php');
-session_start ();
-$LOGIN_ID = $_SESSION ['USER_ID'];
-$urole = $_SESSION ['urole'];
+
 $page_id = $_GET ['page_id'];
 echo '<tr>';
 

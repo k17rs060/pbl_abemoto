@@ -2,10 +2,7 @@
 <?php
 require_once ('db_inc.php');
 // ///////////// ホーム画面から店舗のデータを受け取る ///////////////
-session_start ();
 $STORE_ID = $_GET['STORE_ID'];
-$LOGIN_ID = $_SESSION ['USER_ID'];
-$UROLE = $_SESSION ['urole'];
 $PAGE_ID = $_GET['page_id'];
 
 // ///////////// 店舗情報をデータベースから呼び出す ///////////////
@@ -229,11 +226,6 @@ while ( $row ) {
 	echo '<tr>';
 	echo '<td>' . $row ['REVIEW_ID'] . '</td>';
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
-	if ($row ['USER_ID'] == $LOGIN_ID) {
-		echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>' .
-		     '<a href="rev_delete.php?&page_id='.$_GET['page_id'].'&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME .'&REVIEW_ID='.$row['REVIEW_ID'].'">' .
-		     "口コミ削除" . '</a>' . '</button>' . '</td>';
-	}
 	echo '<br>';
 
 	$limit = 29;
