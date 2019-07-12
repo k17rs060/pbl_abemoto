@@ -252,9 +252,9 @@ for($i = 1; $i <= $max_page; $i ++) {
 	if ($i == $now) {
 		echo $now . ' ';
 	} else if ($i == 1) {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', $i,'&STORE_ID=' . $STORE_ID .'\'>' . $i . '</a>', ' ';
+		echo '<a href=\'/pbl/src/pb_favorg_g.php?page_id=', $i,'&STORE_ID=' . $STORE_ID .'\'>' . $i . '</a>', ' ';
 	} else {
-		echo '<a href=\'/pbl/src/pb_favorg.php?page_id=', (($i * 10) - 10), '&STORE_ID=' . $STORE_ID .'\'>' . $i . '</a>', ' ';
+		echo '<a href=\'/pbl/src/pb_favorg_g.php?page_id=', (($i * 10) - 10), '&STORE_ID=' . $STORE_ID .'\'>' . $i . '</a>', ' ';
 	}
 }
 
