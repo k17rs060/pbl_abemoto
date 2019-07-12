@@ -6,6 +6,7 @@ session_start ();
 $LOGIN_ID = $_SESSION ['USER_ID'];
 $urole = $_SESSION ['urole'];
 $page_id = $_GET ['page_id'];
+
 echo '<tr>';
 echo '<td align="center"><button><a href="str_create.php">店舗登録</a></button></td>';
 echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
