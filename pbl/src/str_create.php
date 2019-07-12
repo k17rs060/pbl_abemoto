@@ -33,7 +33,7 @@ $HP_URL = '';
 					onclick="location.href = 'pb_home.php?page_id=1'">
 			</h2>
 			<br>
-
+			
 
 			<h2>店舗登録</h2>
 			<form action="str_save.php" method="post">
