@@ -6,7 +6,7 @@ session_start ();
 $STORE_ID = $_GET['STORE_ID'];
 $LOGIN_ID = $_SESSION ['USER_ID'];
 $UROLE = $_SESSION ['urole'];
-
+$PAGE_ID = $_GET['page_id'];
 
 // ///////////// 店舗情報をデータベースから呼び出す ///////////////
 $sql = "SELECT * FROM t_rstinfo WHERE STORE_ID = '$STORE_ID'";
@@ -37,13 +37,18 @@ $avg = mysql_fetch_array ( $rs2 );
 if ($avg) {
 	$EVALUATION = $avg ['avg'];
 }
+$AVG_EVALUATION=floor ( $EVALUATION * pow ( 10, 1 ) ) / pow ( 10, 1 );
+$sql = "UPDATE t_rstinfo set EVALUATION='{$AVG_EVALUATION}' WHERE STORE_ID ='{$STORE_ID}'";
+$rs3 = mysql_query ( $sql, $conn );
+if (! $rs3)
+	die ( 'エラー: ' . mysql_error () );
 
 // ///////////// ボタン表示 ///////////////
 echo '<tr>';
 if(!isset($_GET['search'])){
-echo '<td align="center"><button><a href="pb_home.php?page_id=1">戻る</a></button></td>';
+echo '<td align="center"><button><a href="pb_home_g.php?page_id='.$PAGE_ID.'">戻る</a></button></td>';
 }else{
-	echo '<td align="center"><button><a href="pb_home.php?page_id=1&search='.$_GET['search'].'">戻る</a></button></td>';
+	echo '<td align="center"><button><a href="pb_home_g.php?page_id='.$PAGE_ID.'&search='.$_GET['search'].'">戻る</a></button></td>';
 }
 echo '<td align="center">' . '&nbsp;' . '&nbsp;' .'&nbsp;' . '<button><a href="sys_logout.php">ログアウト</a>
 		 </button></td>';
@@ -55,7 +60,7 @@ echo '<br>';
 // ///////////// 店舗情報 ///////////////
 echo '<tr>' . '<h3>';
 echo '<td>' . "店舗名" . '&nbsp;' . '&nbsp;' . $STORE_NAME . '</td>';
-echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . floor ( $EVALUATION * pow ( 10, 1 ) ) / pow ( 10, 1 ) . "点" . '</td>';
+echo '<td>' . '&nbsp;' . '&nbsp;' . "評価" . $AVG_EVALUATION . "点" . '</td>';
 echo '<br>';
 echo '<td>' . "住所" . '&nbsp;' . '&nbsp;' . $ADDRESS . '</td>';
 echo '<br>';
@@ -236,7 +241,7 @@ while ( $row ) {
 		$title = mb_strimwidth ( ($row ['COMMENT']), 0, $limit, "...", "UTF-8" );
 
 		echo '<td>' . $title . '</td>';
-		echo '<td><a href="pb_details.php?REVIEW_ID='.$row['REVIEW_ID'].'&STORE_ID=' . $STORE_ID . '&page_id='.$_GET['page_id'].'">もっと見る</a></td>';
+		echo '<td><a href="pb_details_g.php?REVIEW_ID='.$row['REVIEW_ID'].'&STORE_ID=' . $STORE_ID . '&page_id='.$_GET['page_id'].'">もっと見る</a></td>';
 	} else {
 		echo '<td>' . $row ['COMMENT'] . '</td>';
 	}

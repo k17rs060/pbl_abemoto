@@ -15,6 +15,7 @@ if (! $rs)
 	die ( 'エラー: ' . mysql_error () );
 
 $AVG = "SELECT AVG(EVALUATION_POINTS) as avg FROM t_review WHERE STORE_ID='$STORE_ID'";
+
 $rs2 = mysql_query ( $AVG, $conn );
 if (! $rs2)
 	die ( 'エラー: ' . mysql_error () );
@@ -37,6 +38,11 @@ $avg = mysql_fetch_array ( $rs2 );
 if ($avg) {
 	$EVALUATION = $avg ['avg'];
 }
+$AVG_EVALUATION=floor ( $EVALUATION * pow ( 10, 1 ) ) / pow ( 10, 1 );
+$sql = "UPDATE t_rstinfo set EVALUATION='{$AVG_EVALUATION}' WHERE STORE_ID ='{$STORE_ID}'";
+$rs3 = mysql_query ( $sql, $conn );
+if (! $rs3)
+	die ( 'エラー: ' . mysql_error () );
 
 // ///////////// ボタン表示 ///////////////
 echo '<tr>';
