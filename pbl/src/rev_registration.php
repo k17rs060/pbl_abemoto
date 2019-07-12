@@ -31,7 +31,9 @@ echo "<h4>$STORE_NAME</h4>";
 <input type = "hidden" name = "USER_ID" value = "<?php echo $USER_ID; ?>">
 <input type = "hidden" name = "STORE_ID" value = "<?php echo $STORE_ID; ?>">
 <table><tr>
-<td><input type="text" name="REVIEW_ID" value="<?php echo uniqid(rand().'_');?>">
+
+<td><input type="hidden" name="REVIEW_ID" value="<?php echo uniqid(rand().'_');?>">
+
 </td></tr>
 <tr><td>評価点</td></tr><tr><td>
  <input type="radio" name="EVALUATION_POINT" value="1"/>1
