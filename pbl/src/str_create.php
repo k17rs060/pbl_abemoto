@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require_once ('db_inc.php');
-
 // 変数の初期化。新規登録か編集かにより異なる。
 $act = 'insert'; // 新規登録の場合
 $STORE_ID = '';
@@ -14,7 +13,6 @@ $CL_MIN = 0;
 $MOVE_TIME = 0;
 $HOLIDAY = 0;
 $HP_URL = '';
-
 ?>
 
 
@@ -33,7 +31,7 @@ $HP_URL = '';
 					onclick="location.href = 'pb_home.php?page_id=1'">
 			</h2>
 			<br>
-			
+
 
 			<h2>店舗登録</h2>
 			<form action="str_save.php" method="post">
@@ -60,7 +58,6 @@ $HP_URL = '';
 						<td>営業時間（任意）：</td>
 						<td>
 <?php
-
 echo '<select name="OP_HOUR">';
 for($a = - 1; $a <= 23; $a ++) {
 	if ($a == - 1) {
@@ -69,11 +66,10 @@ for($a = - 1; $a <= 23; $a ++) {
 		echo '<option value = "' . $a . '">' . $a . ' ';
 	}
 }
-
 echo '</select>';
 ?> :  <?php
 echo '<select name="OP_MIN">';
-							
+
 for($b = - 1; $b <= 5; $b ++) {
 	if ($b == - 1) {
 		echo '<option value = "' . $b . '"> --';
@@ -83,13 +79,9 @@ for($b = - 1; $b <= 5; $b ++) {
 		echo '<option value = "' . $b . '">' . $b * 10.;
 	}
 }
-
 echo '</select>';
-
 ?> ～ <?php
-
 echo '<select name="CL_HOUR">';
-
 for($c = - 1; $c <= 23; $c ++) {
 	if ($c == - 1) {
 		echo '<option value = "' . $c . '"> --';
@@ -97,13 +89,9 @@ for($c = - 1; $c <= 23; $c ++) {
 		echo '<option value = "' . $c . '">' . $c . ' ';
 	}
 }
-
 echo '</select>';
-
 ?> : <?php
-
 echo '<select name="CL_MIN">';
-
 for($d = - 1; $d <= 5; $d ++) {
 	if ($d == - 1) {
 		echo '<option value = "' . $d . '"> --';
@@ -113,7 +101,6 @@ for($d = - 1; $d <= 5; $d ++) {
 		echo '<option value = "' . $d . '">' . $d * 10.;
 	}
 }
-
 echo '</select>';
 ?>
 </td>
@@ -138,14 +125,14 @@ echo '</select>';
 
 					<tr>
 						<td>定休日（任意）：</td>
-						<td><input type="checkbox" name="HOLIDAY[]" value=1 />日曜日<input
+						<td><input type="hidden" name="HOLIDAY[]" value=0 />
+							<input type="checkbox" name="HOLIDAY[]" value=1 />日曜日<input
 							type="checkbox" name="HOLIDAY[]" value=2 />月曜日<input
 							type="checkbox" name="HOLIDAY[]" value=3 />火曜日<input
 							type="checkbox" name="HOLIDAY[]" value=4 />水曜日<input
 							type="checkbox" name="HOLIDAY[]" value=5 />木曜日<input
 							type="checkbox" name="HOLIDAY[]" value=6 />金曜日<input
-							type="checkbox" name="HOLIDAY[]" value=7 />土曜日 <input
-							type="hidden" name="HOLIDAY[]" value=0 />
+							type="checkbox" name="HOLIDAY[]" value=7 />土曜日
 							</td>
 					</tr>
 

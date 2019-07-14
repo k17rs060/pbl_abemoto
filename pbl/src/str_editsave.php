@@ -8,22 +8,21 @@
 <div id="navbar">
 <?php
 require_once ('db_inc.php');
+session_start ();
+$USER_ID = $_SESSION ['USER_ID'];
 if (isset ( $_POST ['act'] )) {
 	$act = $_POST ['act'];
-	$STORE_ID = $_POST ['STORE_ID'];
-	$STORE_NAME = $_POST ['STORE_NAME'];$STORE_NAME = '';
+	$STORE_ID = $_POST ['$STORE_ID'];
+	$STORE_NAME = $_POST ['STORE_NAME'];
 	$ADDRESS = $_POST ['ADDRESS'];
 	$OP_HOUR = $_POST ['OP_HOUR'];
 	$OP_MIN = $_POST ['OP_MIN'];
 	$CL_HOUR = $_POST ['CL_HOUR'];
 	$CL_MIN = $_POST ['CL_MIN'];
 	$MOVE_TIME = $_POST ['MOVE_TIME'];
+
 	if (isset($_POST['HOLIDAY']) && is_array($_POST['HOLIDAY'])) {
 		$HOLIDAY = $_POST['HOLIDAY'];
-	}else if (empty($_POST ['HOLIDAY'])) {
-		$_POST ['HOLIDAY'] = 'なし';
-	}else{
-		$HOLIDAY ="なし";
 	}
 	$HP_URL = $_POST ['HP_URL'];
 	$error_1 = '';
@@ -56,14 +55,22 @@ if (isset ( $_POST ['act'] )) {
 		echo "$error_4<br />";
 		echo "$error_5<br />";
 	}
-			$sql = "UPDATE T_RSTINFO SET STORE_NAME='{$STORE_NAME}',ADDRES='{$ADDRESS}',
-			 OP_HOUR='{$OP_HOUR}',OP_MIN='{$OP_MIN}',CL_HOUR={$CL_HOUR},CL_MIN={$CL_MIN},
-			 MOVE_TIME='{$MOVE_TIME}',HOLIDAY='{$HOLIDAY}',HP_URL='{$HP_URL}',
-			 WHERE STORE_ID='{$STORE_ID}'";
+		//	$sql = "UPDATE t_rstinfo SET STORE_ID= '{$STORE_ID}',STORE_NAME='{$STORE_NAME}',ADDRESS='{$ADDRESS}',
+		//	OP_HOUR='{$OP_HOUR}',OP_MIN='{$OP_MIN}',CL_HOUR={$CL_HOUR},CL_MIN={$CL_MIN},
+		//	MOVE_TIME='{$MOVE_TIME}',HOLIDAY='{$HOLIDAY}',HP_URL='{$HP_URL}',
+		//   USER_ID='{$USER_ID}'
+		//	WHERE STORE_ID='{$STORE_ID}'";
+			foreach ($HOLIDAY as $val){
+				$holiday="UPDATE  t_rstinfo SET STORE_ID= '{$STORE_ID}',STORE_NAME='{$STORE_NAME}',ADDRESS='{$ADDRESS}',
+			OP_HOUR='{$OP_HOUR}',OP_MIN='{$OP_MIN}',CL_HOUR={$CL_HOUR},CL_MIN={$CL_MIN},
+			MOVE_TIME='{$MOVE_TIME}',HOLIDAY='$val',HP_URL='{$HP_URL}',
+		    USER_ID='{$USER_ID}'
+			WHERE STORE_ID='{$STORE_ID}'";
+			}
 		// データベースへ問合せのSQL($sql)を実行する・・・
-		$rs = mysql_query($sql, $conn);
+		$rs = mysql_query($holiday, $conn);
 		if (!$rs) die('エラー: ' . mysql_error());
-		header('Location:kokosuko.php');
+		header('Location:pb_favorg.php?page_id=1&STORE_ID='. $STORE_ID.'');
 }
 ?>
 </div>
