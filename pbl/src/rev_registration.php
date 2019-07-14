@@ -21,9 +21,10 @@ $COMMENT = '';
 <h2>
 <?php
 // $sql = "SELECT * FROM T_RSTINFO WHERE STORE_ID='{$STORE_ID}'";
+echo '<td align="center"><button><a href=\'/pbl web2 myprogram/src/pb_favorg.php?page_id=1&STORE_ID=', $STORE_ID, '\'>' .
+		"戻る" . '</a></button></td>', ' ';
 
-echo "<h4>$STORE_NAME</h4>";
-		echo "<h4>への口コミ</h4>";
+echo '<h2>'.$STORE_NAME.'への口コミ</h2>';
 ?>
 </h2>
 <h3>口コミ登録</h3>
