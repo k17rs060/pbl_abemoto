@@ -224,7 +224,7 @@ if (! isset ( $_GET ['page_id'] )) {
 
 while ( $row ) {
 	echo '<tr>';
-	echo '<td>' . $row ['REVIEW_ID'] . '</td>';
+	echo '<td>' . $row ['USER_ID'] . '</td>';
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
 	echo '<br>';
 

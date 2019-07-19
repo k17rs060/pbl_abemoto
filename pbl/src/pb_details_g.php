@@ -19,7 +19,7 @@ if (! $rs2)
 $row2 = mysql_fetch_array ( $rs2 );
 
 if ($row2) {
-	$REVIEW_ID = $row2 ['REVIEW_ID'];
+	$USER_ID = $row2 ['USER_ID'];
 	$EVALUATION_POINTS = $row2 ['EVALUATION_POINTS'];
 	$COMMENT = $row2 ['COMMENT'];
 	if (! $EVALUATION_POINTS)
@@ -38,7 +38,7 @@ echo '</tr>';
 echo '<h3>'.$row1['STORE_NAME'].'</h3>';
 
 	echo '<tr><h3>';
-	echo '<td>' .$REVIEW_ID . '</td>';
+	echo '<td>' .$USER_ID . '</td>';
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $EVALUATION_POINTS . "点" . '</td>';
 	echo '<hr>';
 	echo '</h3>';

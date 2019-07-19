@@ -52,8 +52,8 @@ echo '<td align="center"><button><a href="pb_home.php?page_id=1">戻る</a></but
 	echo '<td align="center"><button><a href="pb_home.php?page_id=1&search='.$_GET['search'].'">戻る</a></button></td>';
 }
 if ($USER_ID == $LOGIN_ID) {
-	//echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
-	      //<a href="str_edit.php?&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME. '">店舗編集</a></button></td>';
+	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
+	      <a href="str_edit.php?&STORE_ID=' . $STORE_ID .'&STORE_NAME=' . $STORE_NAME. '">店舗編集</a></button></td>';
 
 	echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>
 		<a href="str_delete.php?STORE_ID=' . $STORE_ID . '&STORE_NAME=' . $STORE_NAME .'">店舗削除</a></button></td>';
@@ -238,7 +238,7 @@ if (! isset ( $_GET ['page_id'] )) {
 
 while ( $row ) {
 	echo '<tr>';
-	echo '<td>' . $row ['REVIEW_ID'] . '</td>';
+	echo '<td>' . $row ['USER_ID'] . '</td>';
 	echo '<td>' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '&nbsp;' . "評価" . $row ['EVALUATION_POINTS'] . "点" . '</td>';
 	if ($row ['USER_ID'] == $LOGIN_ID) {
 		echo '<td align="center">' . '&nbsp;' . '&nbsp;' . '&nbsp;' . '<button>' .
